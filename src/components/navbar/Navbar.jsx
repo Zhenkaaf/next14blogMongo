@@ -1,10 +1,11 @@
 import React from "react";
 import Links from "./links/Links";
+import s from "./navbar.module.css";
 
 const Navbar = () => {
   return (
-    <div>
-      <div>Logo</div>
+    <div className={s.container}>
+      <div className={s.logo}>Logo</div>
       <div>
         <Links />
       </div>

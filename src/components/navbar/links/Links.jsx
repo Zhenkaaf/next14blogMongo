@@ -1,5 +1,7 @@
 import Link from "next/link";
 import React from "react";
+import s from "./links.module.css";
+import NavLink from "./navLink/navLink";
 
 const Links = () => {
   const links = [
@@ -22,14 +24,12 @@ const Links = () => {
   ];
 
   return (
-    <div>
+    <div className={s.links}>
       {links.map((link) => (
-        <Link
-          href={link.path}
+        <NavLink
+          item={link}
           key={link.title}
-        >
-          {link.title}
-        </Link>
+        />
       ))}
     </div>
   );
