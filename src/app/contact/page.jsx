@@ -1,5 +1,10 @@
 import Image from "next/image";
 import s from "./contact.module.css";
+import dynamic from "next/dynamic";
+
+const HydrationTestNoSSR = dynamic(() => import("@/components/hydrationTest"), {
+  ssr: false,
+});
 
 const ContactPage = () => {
   return (
@@ -13,6 +18,7 @@ const ContactPage = () => {
         />
       </div>
       <div className={s.formContainer}>
+        <HydrationTestNoSSR />
         <form
           action=""
           className={s.form}
@@ -36,7 +42,14 @@ const ContactPage = () => {
             rows="10"
             placeholder="Message"
           ></textarea>
-          <button>Send</button>
+          <button
+          /*  onClick={(e) => {
+              e.preventDefault();
+              console.log("click work");
+            }} */
+          >
+            Send
+          </button>
         </form>
       </div>
     </div>
