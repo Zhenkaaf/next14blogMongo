@@ -21,7 +21,7 @@ const ContactPage = () => {
         />
       </div>
       <div className={s.formContainer}>
-        <HydrationTestNoSSR />
+        {/*  <HydrationTestNoSSR /> */}
         <form
           action=""
           className={s.form}
