@@ -5,6 +5,9 @@ import dynamic from "next/dynamic";
 const HydrationTestNoSSR = dynamic(() => import("@/components/hydrationTest"), {
   ssr: false,
 });
+/* dynamic с опцией ssr: false в Next.js, это означает, 
+что компонент будет загружен только на стороне клиента 
+и не будет участвовать в серверном рендеринге (SSR). */
 
 const ContactPage = () => {
   return (
