@@ -2,7 +2,7 @@ import Image from "next/image";
 import s from "./postCard.module.css";
 import Link from "next/link";
 
-const PostCard = () => {
+const PostCard = async ({ post }) => {
   return (
     <div className={s.container}>
       <div className={s.top}>
@@ -17,15 +17,10 @@ const PostCard = () => {
         <span className={s.date}>09.01.2024</span>
       </div>
       <div className={s.bottom}>
-        <h1 className={s.title}>Title</h1>
-        <p className={s.desc}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo et esse
-          tenetur soluta perspiciatis. At enim excepturi earum. Eos consectetur
-          corporis unde fugiat enim illo assumenda sapiente? Qui, velit
-          laudantium?
-        </p>
+        <h1 className={s.title}>{post.title}</h1>
+        <p className={s.desc}>{post.body}</p>
         <Link
-          href="/blog/post"
+          href={`/blog/${post.id}`}
           className={s.link}
         >
           READ MORE

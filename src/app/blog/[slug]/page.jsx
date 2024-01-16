@@ -1,8 +1,21 @@
 import Image from "next/image";
 import s from "./singlePost.module.css";
+import PostUser from "@/components/postUser/postUser";
+import { Suspense } from "react";
 
-const SinglePostPage = ({ params }) => {
-  console.log(params);
+const getData = async (slug) => {
+  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${slug}`);
+  if (!res.ok) {
+    throw new Error("Something went wrong");
+  }
+  return res.json();
+};
+
+const SinglePostPage = async ({ params }) => {
+  const { slug } = params;
+  console.log("slug***", slug);
+  const post = await getData(slug);
+
   return (
     <div className={s.container}>
       <div className={s.imgContainer}>
@@ -14,7 +27,7 @@ const SinglePostPage = ({ params }) => {
         />
       </div>
       <div className={s.textContainer}>
-        <h1 className={s.title}>Title</h1>
+        <h1 className={s.title}>{post.title}</h1>
         <div className={s.detail}>
           <Image
             src="https://images.pexels.com/photos/19137937/pexels-photo-19137937.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
@@ -23,21 +36,17 @@ const SinglePostPage = ({ params }) => {
             height={50}
             className={s.avatar}
           />
-          <div className={s.detailText}>
-            <span className={s.detailTitle}>Author</span>
-            <span className={s.detailValue}>Terry Hohoho</span>
-          </div>
+
+          <Suspense fallback={<div>Loading..</div>}>
+            <PostUser userId={post.userId} /> {/* with cache: "no-store */}
+          </Suspense>
+
           <div className={s.detailText}>
             <span className={s.detailTitle}>Published</span>
             <span className={s.detailValue}>09.012024</span>
           </div>
         </div>
-        <div className={s.content}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam
-          nostrum quam ipsa quia deserunt eveniet consequuntur neque veritatis
-          quo quae, iure perspiciatis harum, eos facilis natus dolores id
-          inventore modi!
-        </div>
+        <div className={s.content}>{post.body}</div>
       </div>
     </div>
   );
