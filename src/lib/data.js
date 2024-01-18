@@ -12,7 +12,12 @@ const posts = [
 
 import { connectToDb } from "./connectToDb";
 import { Post, User } from "./models";
-
+import { unstable_noStore as noStore } from "next/cache";
+/* noStore() - это функция из Next.js, которая указывает на то, что ресурс,
+ который вы получаете, не должен быть сохранен в кэше браузера. Это может быть полезно, например,
+  когда вы делаете запрос к данным, которые могут часто изменяться,
+   и вы хотите получать актуальные данные каждый раз, когда делаете запрос,
+    вместо использования данных из кэша. */
 export const getPosts = async () => {
   //return posts;
   try {
@@ -39,6 +44,7 @@ export const getPost = async (slug) => {
 
 export const getUser = async (id) => {
   //return users.find((user) => user.id === parseInt(id));
+  noStore();
   try {
     connectToDb();
     const user = await User.findById(id);
