@@ -9,6 +9,11 @@ const HydrationTestNoSSR = dynamic(() => import("@/components/hydrationTest"), {
 что компонент будет загружен только на стороне клиента 
 и не будет участвовать в серверном рендеринге (SSR). */
 
+export const metadata = {
+  title: "Next App Contact Page",
+  description: "Contact description",
+};
+
 const ContactPage = () => {
   return (
     <div className={s.container}>
