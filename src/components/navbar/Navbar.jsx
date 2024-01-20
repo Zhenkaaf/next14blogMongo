@@ -2,8 +2,12 @@ import React from "react";
 import Links from "./links/Links";
 import s from "./navbar.module.css";
 import Link from "next/link";
+import { auth } from "@/lib/auth";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+  console.log("logOUT**", session);
+
   return (
     <div className={s.container}>
       <Link
@@ -13,7 +17,7 @@ const Navbar = () => {
         Logo
       </Link>
       <div>
-        <Links />
+        <Links session={session} />
       </div>
     </div>
   );
