@@ -60,7 +60,12 @@ const SinglePostPage = async ({ params }) => {
           <div className={s.detailText}>
             <span className={s.detailTitle}>Published</span>
             <span className={s.detailValue}>
-              {post.createdAt.toString().slice(4, 16)}
+              {/*   {post.createdAt.toString().slice(4, 16)} */}
+              {new Date(post.createdAt).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </span>
           </div>
         </div>
