@@ -7,6 +7,7 @@ import bcrypt from "bcryptjs";
 import { authConfig } from "./auth.config";
 
 const login = async (credentials) => {
+  console.log("loginFunctionFromAUTH");
   try {
     connectToDb();
     const user = await User.findOne({ username: credentials.username });
@@ -53,7 +54,8 @@ export const {
   ],
   callbacks: {
     async signIn({ user, account, profile }) {
-      console.log(user, account, profile);
+      console.log("signInWOOOOOOOOORK");
+
       if (account.provider === "github") {
         connectToDb();
         try {

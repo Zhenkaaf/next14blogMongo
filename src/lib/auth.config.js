@@ -20,12 +20,13 @@ export const authConfig = {
     authorized({ auth, request }) {
       /* console.log(auth);
       return true; */
-
+      console.log("authorizedWORK****");
       const user = auth?.user;
       const isOnAdminPanel = request.nextUrl?.pathname.startsWith("/admin");
       const isOnBlogPage = request.nextUrl?.pathname.startsWith("/blog");
       const isOnLoginPage = request.nextUrl?.pathname.startsWith("/login");
-
+      const isOnRegisterPage =
+        request.nextUrl?.pathname.startsWith("/register");
       //ONLY ADNIN CAN REACH THE ADMIN DASHBOARD
       if (isOnAdminPanel && !user?.isAdmin) {
         return false;
@@ -40,7 +41,20 @@ export const authConfig = {
       if (isOnLoginPage && user) {
         return Response.redirect(new URL("/", request.nextUrl));
       }
+
+      if (isOnRegisterPage && user) {
+        return Response.redirect(new URL("/", request.nextUrl));
+      }
+
       return true;
     },
   },
 };
+
+/*  if (isOnRegisterPage && user && user.success) {
+        return Response.redirect(new URL("/", request.nextUrl));
+      } 
+
+      const isOnRegisterPage =
+        request.nextUrl?.pathname.startsWith("/register");
+      console.log("isOnRegisterPage**", isOnRegisterPage);*/

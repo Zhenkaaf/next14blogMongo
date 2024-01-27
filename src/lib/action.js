@@ -10,7 +10,7 @@ export const sayHello = async () => {
   console.log("server action");
 };
 
-export const addPost = async (formData) => {
+export const addPost = async (prevState, formData) => {
   /* const title = formData.get("title");
   const desc = formData.get("desc");
   const slug = formData.get("slug");
@@ -33,6 +33,7 @@ export const addPost = async (formData) => {
     console.log("saved to db");
     /* если мы будем не в режиме разработки, то мы не увидим добавленный пост поэтому revalidate... */
     revalidatePath("/blog");
+    revalidatePath("/admin");
   } catch (err) {
     console.log(err);
     return { error: "Something went wrong" };
@@ -41,6 +42,7 @@ export const addPost = async (formData) => {
 
 export const deletePost = async (formData) => {
   const { postId } = Object.fromEntries(formData);
+  console.log(postId);
 
   try {
     connectToDb();
@@ -49,6 +51,44 @@ export const deletePost = async (formData) => {
     console.log("deleted from db");
 
     revalidatePath("/blog");
+    revalidatePath("/admin");
+  } catch (err) {
+    console.log(err);
+    return { error: "Something went wrong" };
+  }
+};
+
+export const addUser = async (prevState, formData) => {
+  const { username, email, password, img } = Object.fromEntries(formData);
+
+  try {
+    connectToDb();
+    const newUser = new User({
+      username,
+      email,
+      password,
+      img,
+    });
+    await newUser.save();
+    console.log("saved to db");
+    /* если мы будем не в режиме разработки, то мы не увидим добавленный пост поэтому revalidate... */
+    revalidatePath("/admin");
+  } catch (err) {
+    console.log(err);
+    return { error: "Something went wrong" };
+  }
+};
+
+export const deleteUser = async (formData) => {
+  const { postId } = Object.fromEntries(formData);
+
+  try {
+    connectToDb();
+    await Post.deleteMany({ userId: postId });
+    await User.findByIdAndDelete(postId);
+    console.log("deleted from db");
+
+    revalidatePath("/admin");
   } catch (err) {
     console.log(err);
     return { error: "Something went wrong" };
@@ -87,9 +127,12 @@ export const register = async (previousState, formData) => {
     });
     await newUser.save();
     console.log("new user saved to db");
+    await signIn("credentials", { username, password });
     return { success: true };
   } catch (err) {
-    return { error: "Something went wrong" };
+    console.log("registrationERROR", err);
+    //return { error: "Something went wrong" };
+    throw err;
   }
 };
 
